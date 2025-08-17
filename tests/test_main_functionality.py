@@ -84,11 +84,8 @@ class TestMainFunctionality:
     def test_increasing_the_ingredient_counter_adding_order(self, driver):
         constructor_page = ConstructorPage(driver)
         constructor_page.open_constructor_page()
-        # Проверяем начальное состояние счетчика
         initial_counter = constructor_page.get_ingredient_counter_value()
-        # Добавляем ингредиент
         constructor_page.drag_and_drop_and_verify_r2_d3()
-        # Проверяем обновление счетчика
         assert constructor_page.get_ingredient_counter_value() > initial_counter
 
 
