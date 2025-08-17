@@ -15,8 +15,6 @@ class TestTools:
         )
 
 class Generators:
-
-    # метод генерирует случайную последовательность из строчных букв латинского алфавита
     @staticmethod
     @allure.step('Генерация случайной последовательности из строчных букв латинского алфавита')
     def generate_random_string(length):
@@ -24,7 +22,6 @@ class Generators:
         random_string = ''.join(random.choice(letters) for _ in range(length))
         return random_string
 
-    # метод генерирует случайную последовательность цифр в формате строки
     @staticmethod
     @allure.step('Генерация случайной последовательности цифр в формате строки')
     def generate_random_numbers_as_string(length):
@@ -41,7 +38,6 @@ class Generators:
         return f"{login_name}@{email_name}.{email_domain}"
 
 
-    # статический метод генерирует список из валидных случайных: почты, пароля и имени
     @staticmethod
     @allure.step('Генерация пользователя')
     def generate_payload():
@@ -57,7 +53,6 @@ class Generators:
 
 class User:
 
-    # метод регистрирует нового пользователя
     @staticmethod
     @allure.step('Регистрация пользователя')
     def register_user(user):
