@@ -9,7 +9,7 @@ class OrderFeedPage(BasePage):
     @allure.step('Получить значение счётчика за всё время')
     def get_counter_value_increases_completed_total(self):
         text = self.get_text_from_element(OrderFeedPageLocators.COUNTER_TOTAL_ORDERS_FOR_ALL_TIME)
-        return int(text.replace(" ", ""))  # Удаляем пробелы и преобразуем в число
+        return int(text.replace(" ", ""))
 
     @allure.step('Получить значение счётчика за сегодня')
     def get_counter_value_increases_completed_total_today(self):
@@ -22,10 +22,7 @@ class OrderFeedPage(BasePage):
 
     @allure.step("Проверяем наличие номера заказа в разделе 'В работе'")
     def check_order_number_in_progress_section_inside_order_feed(self, order_identifier):
-        # Нормализуем номер заказа (удаляем ведущие нули)
         normalized_identifier = order_identifier.lstrip('0')
-
-        # Ждем появления заказа с нормализованным номером
         self.wait.until(
             lambda driver: any(
                 normalized_identifier in order.text.lstrip('0')
@@ -34,7 +31,6 @@ class OrderFeedPage(BasePage):
             message=f"Заказ {order_identifier} не появился в разделе 'В работе'"
         )
 
-        # Проверяем наличие заказа
         orders = self.driver.find_elements(*OrderFeedPageLocators.ORDERS_IN_WORK)
         order_numbers = [order.text.lstrip('0') for order in orders]
         assert normalized_identifier in order_numbers, (
