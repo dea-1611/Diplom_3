@@ -6,12 +6,10 @@ from locators.constructor_page_locators import ConstructorPageLocators
 from locators.order_feed_page_locators import OrderFeedPageLocators
 from seletools.actions import drag_and_drop
 
-# класс содержит базовые методы
 class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
-        # Увеличьте время ожидания с 15 до 30 секунд
         self.wait = WebDriverWait(driver, 30)
 
     @allure.step('Открыть страницу')
