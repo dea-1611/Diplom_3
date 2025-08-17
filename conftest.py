@@ -7,7 +7,6 @@ import allure
 import copy
 from urls import Endpoints
 
-# фикстура запускает браузеры Chrome, Firefox и закрывает их завершению теста
 @pytest.fixture(params=["chrome", "firefox"])
 def driver(request):
     try:
@@ -26,7 +25,7 @@ def random_user():
     payload = Generators.generate_payload()
     with allure.step("Создание пользователя через API"):
         response = User.register_user(payload)
-        access_token = response.json().get("accessToken")  # Исправлено получение токена
+        access_token = response.json().get("accessToken")
 
     yield payload["email"], payload["password"]
 
