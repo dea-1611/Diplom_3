@@ -50,7 +50,6 @@ class ConstructorPage(BasePage):
     @allure.step('Получить значение счётчика ингредиента')
     def get_ingredient_counter_value(self):
         try:
-            # Возвращаем 0 если элемент не найден
             return int(self.get_text_from_element(ConstructorPageLocators.INGREDIENT_COUNTER_R2_D3_BUN))
         except:
             return 0
@@ -69,10 +68,7 @@ class ConstructorPage(BasePage):
 
     @allure.step('Получить номер заказа')
     def get_number_of_order(self):
-        # Ждем, пока номер заказа станет валидным
         self.wait_for_real_order_number(ConstructorPageLocators.NUMBER_OF_ORDER_MODAL_WINDOW)
-
-        # Получаем и обрабатываем номер
         return self.get_element(ConstructorPageLocators.NUMBER_OF_ORDER_MODAL_WINDOW).text.strip().lstrip('0')
 
     @allure.step('Закрыть модальное окно и дождаться его закрытия')
