@@ -4,20 +4,22 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from helpers import Generators,User
 import allure
-import copy
 from urls import Endpoints
 
 @pytest.fixture(params=["chrome", "firefox"])
 def driver(request):
+    driver = None
     try:
         if request.param == "chrome":
             driver = webdriver.Chrome()
         elif request.param == "firefox":
             driver = webdriver.Firefox()
+        yield driver
     except WebDriverException as e:
         pytest.fail(f"Не удалось запустить браузер {request.param}. Ошибка: {e}")
-    yield driver
-    driver.quit()
+    finally:
+        if driver is not None:
+            driver.quit()
 
 
 @pytest.fixture(scope='function')
