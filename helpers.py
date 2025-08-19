@@ -4,8 +4,6 @@ import allure
 import random
 from urls import  Endpoints
 
-
-
 class TestTools:
 
     @staticmethod
@@ -15,6 +13,7 @@ class TestTools:
         )
 
 class Generators:
+
     @staticmethod
     @allure.step('Генерация случайной последовательности из строчных букв латинского алфавита')
     def generate_random_string(length):
@@ -36,7 +35,6 @@ class Generators:
         email_name = ''.join(random.choices(string.ascii_lowercase, k=random.randint(2, 6)))
         email_domain = ''.join(random.choices(string.ascii_lowercase, k=2))
         return f"{login_name}@{email_name}.{email_domain}"
-
 
     @staticmethod
     @allure.step('Генерация пользователя')
