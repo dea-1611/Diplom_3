@@ -1,4 +1,5 @@
 import allure
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from pages.base_page import BasePage
 from urls import *
 from locators.constructor_page_locators import ConstructorPageLocators
@@ -51,7 +52,7 @@ class ConstructorPage(BasePage):
     def get_ingredient_counter_value(self):
         try:
             return int(self.get_text_from_element(ConstructorPageLocators.INGREDIENT_COUNTER_R2_D3_BUN))
-        except:
+        except (TimeoutException, NoSuchElementException, ValueError):
             return 0
 
     @allure.step('Перетащить булку "Флюоресцентная булка R2-D3" в корзину и проверить её отображение в корзине')
@@ -69,6 +70,7 @@ class ConstructorPage(BasePage):
     @allure.step('Получить номер заказа')
     def get_number_of_order(self):
         self.wait_for_real_order_number(ConstructorPageLocators.NUMBER_OF_ORDER_MODAL_WINDOW)
+
         return self.get_element(ConstructorPageLocators.NUMBER_OF_ORDER_MODAL_WINDOW).text.strip().lstrip('0')
 
     @allure.step('Закрыть модальное окно и дождаться его закрытия')
