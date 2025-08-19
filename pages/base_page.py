@@ -10,7 +10,8 @@ class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 30)
+        self.default_timeout = 30
+        self.wait = WebDriverWait(driver, self.default_timeout)
 
     @allure.step('Открыть страницу')
     def open_page(self, url):
@@ -29,7 +30,6 @@ class BasePage:
     @allure.step('Ожидание кликабельности элемента')
     def wait_for_clickable_element(self, locator):
         return self.wait.until(expected_conditions.element_to_be_clickable(locator))
-
 
     @allure.step('Прокрутить до элемента')
     def scroll_to_element(self, locator):
@@ -64,7 +64,6 @@ class BasePage:
     def get_text_from_element(self, locator):
         return self.find_element(locator).text
 
-
     @allure.step('Очистить поле и вставить текст')
     def set_text_in_element(self, locator, text):
         element = self.wait_for_clickable_element(locator)
@@ -75,7 +74,6 @@ class BasePage:
     def refresh_page_and_wait(self, locator):
         self.driver.refresh()
         self.wait.until(expected_conditions.presence_of_element_located(locator))
-
 
     @allure.step('Проверка URL')
     def check_to_url(self):
@@ -114,7 +112,25 @@ class BasePage:
 
     @allure.step('Ожидание изменения текста элемента')
     def wait_for_text_to_change(self, locator, initial_text, timeout=10):
-        self.wait.until(
+        wait = WebDriverWait(self.driver, timeout)
+        wait.until(
             lambda driver: self.get_text_from_element(locator) != initial_text,
             message=f"Текст элемента не изменился с '{initial_text}'"
         )
+
+    @allure.step('Поиск элементов')
+    def find_elements(self, locator):
+        return self.wait.until(expected_conditions.presence_of_all_elements_located(locator))
+
+    @allure.step('Ожидание специального условия')
+    def wait_until_custom(self, condition, timeout=None, message=""):
+        wait_timeout = timeout if timeout is not None else self.default_timeout
+        wait = WebDriverWait(self.driver, wait_timeout)
+        return wait.until(condition, message=message)
+
+    @allure.step('Получение текста с защитой от ошибок из WebElement')
+    def safe_get_text_from_element(self, element):
+        try:
+            return element.text
+        except Exception:
+            return ""
