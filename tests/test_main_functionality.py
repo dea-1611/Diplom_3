@@ -87,5 +87,3 @@ class TestMainFunctionality:
         initial_counter = constructor_page.get_ingredient_counter_value()
         constructor_page.drag_and_drop_and_verify_r2_d3()
         assert constructor_page.get_ingredient_counter_value() > initial_counter
-
-
